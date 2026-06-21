@@ -1,43 +1,67 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
-from ex0 import CreatureFactory, FlameFactory, AquaFactory, Creature
-from ex1 import HealingCreatureFactory, TransformCreatureFactory
+from typing import cast
+from ex0 import Creature
+from ex1 import HealCapability, TransformCapability
+
+
+class InvalidStrategyError(Exception):
+    """Raised when a strategy is asked to act on an unsuitable Creature."""
 
 
 class BattleStrategy(ABC):
+    _label: str
+
     @abstractmethod
-    def act():
+    def act(self, creature: Creature) -> None:
         ...
 
     @abstractmethod
-    def is_valid() -> bool:
+    def is_valid(self, creature: Creature) -> bool:
         ...
+
+    def _check(self, creature: Creature) -> None:
+        if not self.is_valid(creature):
+            raise InvalidStrategyError(
+                f"Invalid Creature '{creature._name}' "
+                f"for this {self._label} strategy")
 
 
 class NormalStrategy(BattleStrategy):
+    _label = "normal"
+
     def act(self, creature: Creature) -> None:
+        self._check(creature)
         print(creature.attack())
 
-    def is_valid(self, factory: CreatureFactory) -> bool:
-        return isinstance(factory, (AquaFactory, FlameFactory))
+    def is_valid(self, creature: Creature) -> bool:
+        return isinstance(creature, Creature)
 
 
-class AgressiveStrategy(BattleStrategy):
+class AggressiveStrategy(BattleStrategy):
+    _label = "aggressive"
+
     def act(self, creature: Creature) -> None:
+        self._check(creature)
+        tc = cast(TransformCapability, creature)
         print(creature.attack())
-        print(creature.transform())
+        print(tc.transform())
         print(creature.attack())
-        print(creature.revert())
+        print(tc.revert())
 
-    def is_valid(self, factory: CreatureFactory) -> bool:
-        return isinstance(factory, TransformCreatureFactory)
+    def is_valid(self, creature: Creature) -> bool:
+        return isinstance(creature, TransformCapability)
 
 
 class DefensiveStrategy(BattleStrategy):
-    def act(self, creature: Creature) -> None:
-        print(creature.attack())
-        print(creature.heal("itself"))
+    _label = "defensive"
 
-    def is_valid(self, factory: CreatureFactory) -> bool:
-        return isinstance(factory, HealingCreatureFactory)
+    def act(self, creature: Creature) -> None:
+        self._check(creature)
+        hc = cast(HealCapability, creature)
+        print(creature.attack())
+        print(hc.heal("itself"))
+
+    def is_valid(self, creature: Creature) -> bool:
+        return isinstance(creature, HealCapability)

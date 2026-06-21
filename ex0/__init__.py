@@ -1,6 +1,6 @@
 from .Create_creature import (
-    CreatureFactory, FlameFactory,
-    AquaFactory, Creature
+    Creature, CreatureFactory, FlameFactory,
+    AquaFactory
     )
 
-__all__ = ["CreatureFactory", "FlameFactory", "AquaFactory", "Creature"]
+__all__ = ["Creature", "CreatureFactory", "FlameFactory", "AquaFactory"]

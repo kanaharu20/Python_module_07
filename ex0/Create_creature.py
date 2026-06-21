@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 
 class Creature(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self._name: str
         self._type: str
 
@@ -13,11 +13,11 @@ class Creature(ABC):
         ...
 
     def describe(self) -> str:
-        return f"{self._name} is a {self._type} Creature"
+        return f"{self._name} is a {self._type} type Creature"
 
 
 class Flameling(Creature):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self._name = "Flameling"
         self._type = "Fire"
@@ -27,7 +27,7 @@ class Flameling(Creature):
 
 
 class Pyrodon(Creature):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self._name = "Pyrodon"
         self._type = "Fire/Flying"
@@ -37,7 +37,7 @@ class Pyrodon(Creature):
 
 
 class Aquabub(Creature):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self._name = "Aquabub"
         self._type = "Water"
@@ -47,7 +47,7 @@ class Aquabub(Creature):
 
 
 class Torragon(Creature):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self._name = "Torragon"
         self._type = "Water"
@@ -57,7 +57,7 @@ class Torragon(Creature):
 
 
 class CreatureFactory(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self._creature: Creature
         self._evolved_creature: Creature
 
@@ -71,7 +71,7 @@ class CreatureFactory(ABC):
 
 
 class FlameFactory(CreatureFactory):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def create_base(self) -> Creature:
@@ -84,7 +84,7 @@ class FlameFactory(CreatureFactory):
 
 
 class AquaFactory(CreatureFactory):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     def create_base(self) -> Creature:
