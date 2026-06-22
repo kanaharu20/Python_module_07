@@ -1,9 +1,7 @@
 from .Create_creature_2 import (
-    HealingCreatureFactory, TransformCreatureFactory,
-    HealCapability, TransformCapability
+    HealingCreatureFactory, TransformCreatureFactory
 )
 
 __all__ = [
-    "HealingCreatureFactory", "TransformCreatureFactory",
-    "HealCapability", "TransformCapability"
+    "HealingCreatureFactory", "TransformCreatureFactory"
 ]

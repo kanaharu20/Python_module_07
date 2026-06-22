@@ -28,7 +28,7 @@ def battle(opponents: list[Opponent]) -> None:
                 strat_b.act(creb)
                 print()
     except InvalidStrategyError as e:
-        print(f"Battle error, aborting tournament: {e}")
+        print(f"Battle error, aborting tournament: {e}\n")
 
 
 if __name__ == "__main__":

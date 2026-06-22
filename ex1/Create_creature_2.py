@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from abc import ABC, abstractmethod
-from ex0 import CreatureFactory, Creature
+from ex0 import CreatureFactory
+from ex0.Create_creature import Creature
 
 
 class HealCapability(ABC):
@@ -21,19 +22,6 @@ class TransformCapability(ABC):
     @abstractmethod
     def revert(self) -> str:
         ...
-
-
-class HealingCreatureFactory(CreatureFactory):
-    def __init__(self) -> None:
-        super().__init__()
-
-    def create_base(self) -> Creature:
-        self._creature = Sproutling()
-        return self._creature
-
-    def create_evolved(self) -> Creature:
-        self._evolved_creature = Bloomelle()
-        return self._evolved_creature
 
 
 class Sproutling(HealCapability, Creature):
@@ -62,16 +50,16 @@ class Bloomelle(HealCapability, Creature):
         return f"{self._name} heals {target} for a large amount"
 
 
-class TransformCreatureFactory(CreatureFactory):
+class HealingCreatureFactory(CreatureFactory):
     def __init__(self) -> None:
         super().__init__()
 
-    def create_base(self) -> Creature:
-        self._creature = Shiftling()
+    def create_base(self) -> Sproutling:
+        self._creature = Sproutling()
         return self._creature
 
-    def create_evolved(self) -> Creature:
-        self._evolved_creature = Morphagon()
+    def create_evolved(self) -> Bloomelle:
+        self._evolved_creature = Bloomelle()
         return self._evolved_creature
 
 
@@ -117,3 +105,16 @@ class Morphagon(TransformCapability, Creature):
     def revert(self) -> str:
         self._status = "its form"
         return f"{self._name} stabilizes {self._status}."
+
+
+class TransformCreatureFactory(CreatureFactory):
+    def __init__(self) -> None:
+        super().__init__()
+
+    def create_base(self) -> Shiftling:
+        self._creature = Shiftling()
+        return self._creature
+
+    def create_evolved(self) -> Morphagon:
+        self._evolved_creature = Morphagon()
+        return self._evolved_creature
